@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://ccqjn05aw3ts"]
+
+[ext_resource type="Texture2D" uid="uid://ivahygfmjt15" path="res://dodge_assets/art/enemyFlyingAlt_1.png" id="1_gu43s"]
+[ext_resource type="Script" path="res://mob.gd" id="1_yreeg"]
+[ext_resource type="Texture2D" uid="uid://cmo5oxjpb588m" path="res://dodge_assets/art/enemyFlyingAlt_2.png" id="2_ia4if"]
+[ext_resource type="Texture2D" uid="uid://g00rhmeuydq8" path="res://dodge_assets/art/enemySwimming_1.png" id="3_l0vui"]
+[ext_resource type="Texture2D" uid="uid://bd6icrqvic8h0" path="res://dodge_assets/art/enemySwimming_2.png" id="4_d7m07"]
+[ext_resource type="Texture2D" uid="uid://cd10uhn0vek8e" path="res://dodge_assets/art/enemyWalking_1.png" id="5_uv1p3"]
+[ext_resource type="Texture2D" uid="uid://b6h8dpaentifu" path="res://dodge_assets/art/enemyWalking_2.png" id="6_snupe"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d1jo6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gu43s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ia4if")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_l0vui")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_d7m07")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_uv1p3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_snupe")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nofo5"]
+radius = 35.0
+height = 100.0
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_yreeg")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_d1jo6")
+animation = &"walk"
+autoplay = "walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_nofo5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
